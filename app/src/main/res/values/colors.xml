@@ -2,11 +2,14 @@
 <resources>
     <color name="Font">#1F2933</color>
     <color name="Primary">#FFFEFC</color>
+    <color name="alphaPrimary">#66FFFEFC</color>
+    <color name="alpha2Primary">#B3FFFEFC</color>
     <color name="Secondary">#DEDEDE</color>
+    <color name="Border">#3F3F4E</color>
     <color name="Theme">#FFC400</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="Dark">#1F2933</color>
+    <color name="Dark">#040405</color>
     <color name="Light">#FFFEFC</color>
     <color name="SplashScreen">#FFC400</color>
     <color name="SplashText">#FFFEFC</color>

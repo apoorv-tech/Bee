@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.devanant.bee.R;
+import com.devanant.bee.UI.BrowseInterestAdapter;
 
 import java.util.List;
 
@@ -20,12 +21,14 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
     private Context context;
     private List<String> titles;
     private  List<Integer> images;
+    private SelectedViewPager selectedPager;
 
-    public CategoryAdapter(Context context,List<String> titles,List<Integer> images)
+    public CategoryAdapter(Context context,List<String> titles,List<Integer> images, SelectedViewPager selectedPager)
     {
         this.context=context;
         this.titles=titles;
         this.images=images;
+        this.selectedPager=selectedPager;
     }
     @NonNull
     @Override
@@ -40,12 +43,16 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
      holder.mImageView.setImageResource(images.get(position));
     }
 
+    public interface SelectedViewPager{
+        void selectedViewpager(String title);
+    }
+
     @Override
     public int getItemCount() {
         return titles.size();
     }
 
-    public static class MyViewHolder extends RecyclerView.ViewHolder{
+    public class MyViewHolder extends RecyclerView.ViewHolder{
         ImageView mImageView;
         TextView mTextView;
 
@@ -57,7 +64,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(v.getContext(),"Item No "+getAdapterPosition(),Toast.LENGTH_SHORT).show();
+                    selectedPager.selectedViewpager(titles.get(getAdapterPosition()));
                 }
             });
         }

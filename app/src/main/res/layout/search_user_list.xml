@@ -9,8 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="60dp"
 
-        android:layout_marginTop="12dp"
-        android:layout_marginBottom="12dp"
+        android:layout_marginTop="8dp"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -19,8 +18,9 @@
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/userImage"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
+            android:layout_width="42dp"
+            android:layout_height="42dp"
+            android:layout_gravity="center"
             android:scaleType="centerCrop"
             android:src="@drawable/profile" />
 
@@ -28,11 +28,12 @@
             android:id="@+id/UserName"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:fontFamily="@font/poppinsregular"
+            android:fontFamily="@font/sf_light"
             android:gravity="center_vertical"
             android:paddingStart="8dp"
             android:text="Username"
-            android:textSize="@dimen/_18ssp" />
+            android:textColor="@color/Font"
+            android:textSize="@dimen/_14ssp" />
 
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

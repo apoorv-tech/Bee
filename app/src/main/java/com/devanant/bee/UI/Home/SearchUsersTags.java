@@ -13,9 +13,6 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 
 import com.devanant.bee.R;
-import com.devanant.bee.UI.organisationAdapter;
-import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
-import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;

@@ -2,12 +2,17 @@ package com.devanant.bee.UI;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.media.Image;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
@@ -17,6 +22,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.canhub.cropper.CropImage;
+import com.canhub.cropper.CropImageView;
 import com.devanant.bee.Database.TinyDB;
 import com.devanant.bee.R;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -28,12 +35,12 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
-import com.theartofdev.edmodo.cropper.CropImage;
-import com.theartofdev.edmodo.cropper.CropImageView;
+import com.squareup.picasso.Target;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -127,9 +134,29 @@ public class EditProfile extends AppCompatActivity {
         });
 
         profilePic.setOnClickListener(v->{
-            CropImage.activity().setGuidelines(CropImageView.Guidelines.ON).setAspectRatio(9,16).start(EditProfile.this);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                if (checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                        == PackageManager.PERMISSION_GRANTED) {
+                    CropImage.activity().setGuidelines(CropImageView.Guidelines.ON).setAspectRatio(9,16).start(EditProfile.this);
+                } else {
+                    ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+                }
+            }
+            else {
+                //permission is automatically granted on sdk<23 upon installation
+                CropImage.activity().setGuidelines(CropImageView.Guidelines.ON).setAspectRatio(9,16).start(EditProfile.this);
+            }
         });
 
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+            CropImage.activity().setGuidelines(CropImageView.Guidelines.ON).setAspectRatio(9,16).start(EditProfile.this);
+            //resume tasks needing this permission
+        }
     }
 
     private boolean check() {
@@ -206,25 +233,48 @@ public class EditProfile extends AppCompatActivity {
         if(requestCode==CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE && resultCode==RESULT_OK){
             CropImage.ActivityResult result=CropImage.getActivityResult(data);
             Uri resultUri=result.getUri();
+            Picasso.get().load(resultUri).into(new Target() {
+                @Override
+                public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                    profilePic.setImageBitmap(bitmap);
+                    ByteArrayOutputStream byteArrayOutputStream=new ByteArrayOutputStream();
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 10,byteArrayOutputStream );
+                    finalImage=byteArrayOutputStream.toByteArray();
+                    String imageEncoded = Base64.encodeToString(finalImage, Base64.DEFAULT);
+                    tinyDB.putString("ProfilePic", imageEncoded);
+                    uploadToFirebaseStorage();
+                }
 
-            File actualImage=new File(resultUri.getPath());
-            try {
-                compressedImageFile = new Compressor(this)
-                        .setMaxWidth(720)
-                        .setMaxHeight(1280)
-                        .setQuality(30)
-                        .compressToBitmap(actualImage);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+                @Override
+                public void onBitmapFailed(Exception e, Drawable errorDrawable) {
 
-            ByteArrayOutputStream byteArrayOutputStream=new ByteArrayOutputStream();
-            compressedImageFile.compress(Bitmap.CompressFormat.JPEG,80,byteArrayOutputStream);
-            finalImage=byteArrayOutputStream.toByteArray();
-            String imageEncoded = Base64.encodeToString(finalImage, Base64.DEFAULT);
-            tinyDB.putString("ProfilePic", imageEncoded);
-            Picasso.get().load(resultUri).into(profilePic);
-            uploadToFirebaseStorage();
+                }
+
+                @Override
+                public void onPrepareLoad(Drawable placeHolderDrawable) {
+
+                }
+            });
+//            Log.i("DebugPicker", "onActivityResult: "+compressedImageFile.getByteCount());
+//            File actualImage=new File(resultUri.getPath());
+//            Log.i("DebugPicker", "onActivityResult: "+actualImage.getAbsolutePath());
+//            try {
+//                compressedImageFile = new Compressor(this)
+//                        .setMaxWidth(720)
+//                        .setMaxHeight(1280)
+//                        .setQuality(30)
+//                        .compressToBitmap(actualImage);
+//                Log.i("DebugPicker", "onActivityResult: "+compressedImageFile.getByteCount());
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//            ByteArrayOutputStream byteArrayOutputStream=new ByteArrayOutputStream();
+//            compressedImageFile.compress(Bitmap.CompressFormat.JPEG,80,byteArrayOutputStream);
+//            finalImage=byteArrayOutputStream.toByteArray();
+//            String imageEncoded = Base64.encodeToString(finalImage, Base64.DEFAULT);
+//            tinyDB.putString("ProfilePic", imageEncoded);
+//            Picasso.get().load(resultUri).into(profilePic);
+//            uploadToFirebaseStorage();
         }
     }
 

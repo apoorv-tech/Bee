@@ -5,26 +5,26 @@
     <item
         android:id="@+id/nav_home"
         android:title="Home"
-        android:icon="@drawable/ic_baseline_home_24"
+        android:icon="@drawable/ic_outline_home_24"
         app:cnb_textColor="@color/Font"
         app:cnb_iconColor="@color/Font"
-        app:cnb_backgroundColor="@color/Primary"/>
+        app:cnb_backgroundColor="@color/Theme"/>
 
     <item
         android:id="@+id/nav_msg"
         android:title="Message"
-        android:icon="@drawable/ic_baseline_message_24"
+        android:icon="@drawable/ic_outline_message_24"
         app:cnb_textColor="@color/Font"
         app:cnb_iconColor="@color/Font"
-        app:cnb_backgroundColor="@color/Primary"/>
+        app:cnb_backgroundColor="@color/Theme"/>
 
     <item
         android:id="@+id/nav_profile"
         android:title="Profile"
-        android:icon="@drawable/ic_baseline_person_24"
+        android:icon="@drawable/ic_outline_person_24"
         app:cnb_textColor="@color/Font"
         app:cnb_iconColor="@color/Font"
-        app:cnb_backgroundColor="@color/Primary"/>
+        app:cnb_backgroundColor="@color/Theme"/>
 
 
 

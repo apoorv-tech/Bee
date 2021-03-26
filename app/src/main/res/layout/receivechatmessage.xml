@@ -7,20 +7,20 @@
          android:layout_width="wrap_content"
          android:layout_height="wrap_content"
          android:layout_margin="4dp"
-         android:id="@+id/nametext"
+         android:id="@+id/nameTextView"
          android:text="Name"
          android:fontFamily="@font/poppinsbold"></TextView>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/nametext"
+        android:layout_below="@id/nameTextView"
        android:layout_marginEnd="64dp"
         android:layout_marginStart="4dp"
         android:layout_marginBottom="4dp"
         android:padding="8dp"
         android:textSize="16dp"
-        android:id="@+id/receivedText"
+        android:id="@+id/messageTextView"
         android:fontFamily="@font/poppinsmedium"
         android:text="Hello this is a sample received message"
         android:background="@drawable/theme_filled_btn"></TextView>

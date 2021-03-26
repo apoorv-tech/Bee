@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="Primary">#1F2933</color>
-    <color name="Secondary">#34414C</color>
+    <color name="Primary">#040405</color>
+    <color name="alphaPrimary">#66040405</color>
+    <color name="alpha2Primary">#B3040405</color>
+    <color name="Secondary">#2D2D35</color>
     <color name="Font">#FFFEFC</color>
+    <color name="Border">#3F3F4E</color>
     <color name="Theme">#FFC400</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="Dark">#1F2933</color>
+    <color name="Dark">#040405</color>
     <color name="Light">#FFFEFC</color>
-    <color name="SplashScreen">#1F2933</color>
+    <color name="SplashScreen">#040405</color>
     <color name="SplashText">#FFC400</color>
 </resources>

@@ -1,8 +1,9 @@
 package com.devanant.bee.UI.Home;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class UserModel {
+public class UserModel implements Serializable {
     private String Bio;
     private String Facebook;
     private String Instagram;
